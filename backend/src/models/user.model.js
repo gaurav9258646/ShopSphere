@@ -1,23 +1,20 @@
 const db = require("../config/db");
 
 
-const createUser = async ({ name, email, password }) => {
-    try {
-        const sql = `
-      INSERT INTO users (name, email, password)
-      VALUES (?, ?, ?)
-    `;
+const createUser = async ({ name, email, password, role }) => {
+    const sql = `
+    INSERT INTO users (name, email, password, role)
+    VALUES (?, ?, ?, ?)
+  `;
 
-        const [result] = await db.execute(sql, [
-            name,
-            email,
-            password,
-        ]);
+    const [result] = await db.execute(sql, [
+        name,
+        email,
+        password,
+        role,
+    ]);
 
-        return result.insertId;
-    } catch (error) {
-        throw error;
-    }
+    return result.insertId;
 };
 
 

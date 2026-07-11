@@ -2,32 +2,29 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
 
 
-const registerService = async ({ name, email, password }) => {
-    try {
-        const existingUser = await User.findUserByEmail(email);
+const registerService = async ({ name, email, password, role }) => {
+    const existingUser = await User.findUserByEmail(email);
 
-        if (existingUser) {
-            throw new Error("Email already exists");
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const userId = await User.createUser({
-            name,
-            email,
-            password: hashedPassword,
-        });
-
-        return {
-            id: userId,
-            name,
-            email,
-        };
-    } catch (error) {
-        throw error;
+    if (existingUser) {
+        throw new Error("Email already exists");
     }
-};
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const userId = await User.createUser({
+        name,
+        email,
+        password: hashedPassword,
+        role: role || "user",
+    });
+
+    return {
+        id: userId,
+        name,
+        email,
+        role: role || "user",
+    };
+};
 
 const loginService = async ({ email, password }) => {
     try {
