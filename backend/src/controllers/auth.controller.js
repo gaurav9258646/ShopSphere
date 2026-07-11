@@ -3,21 +3,19 @@ const jwt = require("jsonwebtoken");
 const {
     registerService,
     loginService,
+    logoutService,
 } = require("../services/auth.service");
 
+
 const register = async (req, res) => {
-
     try {
-
         const { name, email, password } = req.body;
 
         if (!name || !email || !password) {
-
             return res.status(400).json({
                 success: false,
                 message: "All fields are required",
             });
-
         }
 
         const user = await registerService({
@@ -26,36 +24,30 @@ const register = async (req, res) => {
             password,
         });
 
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
             message: "User Registered Successfully",
             user,
         });
 
     } catch (error) {
-
-        res.status(400).json({
+        return res.status(400).json({
             success: false,
             message: error.message,
         });
-
     }
-
 };
 
+
 const login = async (req, res) => {
-
     try {
-
         const { email, password } = req.body;
 
         if (!email || !password) {
-
             return res.status(400).json({
                 success: false,
                 message: "Email and Password are required",
             });
-
         }
 
         const user = await loginService({
@@ -75,7 +67,7 @@ const login = async (req, res) => {
             }
         );
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "Login Successful",
             token,
@@ -88,17 +80,30 @@ const login = async (req, res) => {
         });
 
     } catch (error) {
-
-        res.status(401).json({
+        return res.status(401).json({
             success: false,
             message: error.message,
         });
-
     }
+};
 
+
+const logout = async (req, res) => {
+    try {
+        const response = await logoutService();
+
+        return res.status(200).json(response);
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
 };
 
 module.exports = {
     register,
     login,
+    logout,
 };
