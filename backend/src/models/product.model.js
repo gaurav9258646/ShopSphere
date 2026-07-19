@@ -1,8 +1,5 @@
 const db = require("../config/db");
 
-/**
- * Create Product
- */
 const createProduct = async (productData) => {
   const {
     category_id,
@@ -194,9 +191,7 @@ const updateProduct = async (id, productData) => {
   return result;
 };
 
-/**
- * Delete Product
- */
+
 const deleteProduct = async (id) => {
 
   const [result] = await db.execute(

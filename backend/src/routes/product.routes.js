@@ -18,34 +18,27 @@ const {
 
 router.get("/", getAllProducts);
 
-// Search Products
+
 router.get("/search", searchProducts);
 
-// Get Product By ID
+
 router.get("/:id", getProductById);
 
-/**
- * Admin Routes
- */
-
-// Create Product with Image Upload
 router.post(
     "/",
     authMiddleware,
     isAdmin,
-    upload.single("thumbnail"),
+    upload.array("images", 5),
     createProduct
 );
 
-// Update Product
 router.put(
     "/:id",
     authMiddleware,
     isAdmin,
-    upload.single("thumbnail"),
+    upload.array("images", 5),
     updateProduct
 );
-
 // Delete Product
 router.delete(
     "/:id",
