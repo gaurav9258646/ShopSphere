@@ -1,25 +1,27 @@
-import React from "react";
+const StatCard = ({
+  title,
+  value,
+  color,
+}) => {
 
-const StatCard = ({ title, value, icon, color }) => {
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 flex items-center justify-between hover:shadow-lg transition">
 
-      <div>
-        <h3 className="text-gray-500 text-sm">{title}</h3>
+    <div
+      className={`${color} rounded-xl shadow-lg p-6 text-white`}
+    >
 
-        <h2 className="text-3xl font-bold mt-2">
-          {value}
-        </h2>
-      </div>
+      <h2 className="text-lg font-semibold">
+        {title}
+      </h2>
 
-      <div
-        className={`w-14 h-14 rounded-full flex items-center justify-center text-white text-2xl ${color}`}
-      >
-        {icon}
-      </div>
+      <h1 className="text-4xl font-bold mt-4">
+        {value}
+      </h1>
 
     </div>
+
   );
+
 };
 
 export default StatCard;

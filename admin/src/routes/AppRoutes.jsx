@@ -11,6 +11,8 @@ import AddProduct from "../pages/product/AddProduct";
 import EditProduct from "../pages/product/EditProduct";
 import AddCategory from "../pages/category/AddCategory";
 import EditCategory from "../pages/category/EditCategory";
+import Orders from "../pages/orders/Orders";
+import OrderDetails from "../pages/orders/OrderDetails";
 
 const AppRoutes = () => {
   return (
@@ -34,9 +36,14 @@ const AppRoutes = () => {
         <Route path="/products/edit/:id" element={<EditProduct />} />
         <Route path="/categories/add" element={<AddCategory />} />
         <Route path="/categories/edit/:id" element={<EditCategory />} />
+        <Route path="/orders" element={<Orders />} />
+
+<Route
+  path="/orders/:id"
+  element={<OrderDetails />}
+/>
       </Route>
 
-      <Route path="*" element={<Navigate to="/login" replace />} />
 
     </Routes>
   );

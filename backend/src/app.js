@@ -7,6 +7,9 @@ const userRoutes = require("./routes/user.routes");
 const categoryRoutes = require("./routes/category.routes");
 const productRoutes = require("./routes/product.routes");
 const productImageRoutes = require("./routes/productImage.routes");
+
+const dashboardRoutes = require("./routes/dashboard.routes");
+const orderRoutes = require("./routes/order.routes");
 const app = express();
 const path = require("path");
 
@@ -23,6 +26,8 @@ app.use("/users", userRoutes);
 app.use("/categories", categoryRoutes);
 app.use("/products", productRoutes);
 app.use("/product-images", productImageRoutes);
+app.use("/dashboard", dashboardRoutes);
+app.use("/orders", orderRoutes);
 
 
 module.exports = app;

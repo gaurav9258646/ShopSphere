@@ -1,10 +1,13 @@
 const Product = require("../models/product.model");
 const ProductImage = require("../models/productImage.model");
 
+const {
+    deleteImageFromCloudinary,
+} = require("../utils/cloudinary");
 
+// Upload Images
 const uploadProductImagesService = async (productId, files) => {
 
-    // Check Product
     const product = await Product.findProductById(productId);
 
     if (!product) {
@@ -24,12 +27,13 @@ const uploadProductImagesService = async (productId, files) => {
             id: imageId,
             image_url: file.path,
         });
+
     }
 
     return uploadedImages;
 };
 
-
+// Get Images
 const getProductImagesService = async (productId) => {
 
     const product = await Product.findProductById(productId);
@@ -39,9 +43,10 @@ const getProductImagesService = async (productId) => {
     }
 
     return await ProductImage.getProductImages(productId);
+
 };
 
-
+// Delete Image
 const deleteProductImageService = async (imageId) => {
 
     const image = await ProductImage.findImageById(imageId);
@@ -50,7 +55,15 @@ const deleteProductImageService = async (imageId) => {
         throw new Error("Image not found");
     }
 
-    await ProductImage.deleteProductImage(imageId);
+    // Delete from Cloudinary
+    await deleteImageFromCloudinary(
+        image.image_url
+    );
+
+    // Delete from Database
+    await ProductImage.deleteProductImage(
+        imageId
+    );
 
     return true;
 };

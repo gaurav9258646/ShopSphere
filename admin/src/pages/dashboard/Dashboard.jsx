@@ -1,136 +1,142 @@
-import {
-  FaUsers,
-  FaBoxOpen,
-  FaList,
-  FaShoppingCart,
-} from "react-icons/fa";
+import { useEffect, useState } from "react";
 
-import StatCard from "../dashboard/StatCard";
+import StatCard from "../../pages/dashboard/StatCard";
+
+import { getDashboardStats } from "../../services/dashboard.service";
 
 const Dashboard = () => {
+
+  const [stats, setStats] = useState({
+    products: 0,
+    categories: 0,
+    orders: 0,
+    users: 0,
+  });
+
+  const [loading, setLoading] = useState(true);
+
+  // ==========================
+  // Fetch Dashboard Data
+  // ==========================
+
+  const fetchDashboard = async () => {
+
+    try {
+
+      const response = await getDashboardStats();
+
+      if (response.success) {
+        setStats(response.data);
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+    } finally {
+
+      setLoading(false);
+
+    }
+
+  };
+
+  useEffect(() => {
+
+    fetchDashboard();
+
+  }, []);
+
+  if (loading) {
+
+    return (
+      <div className="flex justify-center items-center h-[70vh]">
+        <h1 className="text-2xl font-semibold">
+          Loading Dashboard...
+        </h1>
+      </div>
+    );
+
+  }
+
   return (
-    <div>
 
-      <h1 className="text-3xl font-bold mb-6">
-        Dashboard
-      </h1>
+    <div className="p-6">
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="mb-8">
 
-        <StatCard
-          title="Total Users"
-          value="120"
-          icon={<FaUsers />}
-          color="bg-blue-600"
-        />
+        <h1 className="text-3xl font-bold">
+          Dashboard
+        </h1>
+
+        <p className="text-gray-500 mt-2">
+          Welcome to ShopSphere Admin Panel
+        </p>
+
+      </div>
+
+      {/* Dashboard Cards */}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
         <StatCard
           title="Products"
-          value="85"
-          icon={<FaBoxOpen />}
-          color="bg-green-600"
+          value={stats.products}
+          color="bg-blue-500"
         />
 
         <StatCard
           title="Categories"
-          value="12"
-          icon={<FaList />}
-          color="bg-purple-600"
+          value={stats.categories}
+          color="bg-green-500"
         />
 
         <StatCard
           title="Orders"
-          value="45"
-          icon={<FaShoppingCart />}
+          value={stats.orders}
           color="bg-orange-500"
+        />
+
+        <StatCard
+          title="Users"
+          value={stats.users}
+          color="bg-purple-500"
         />
 
       </div>
 
-      {/* Recent Orders */}
+      {/* Latest Products */}
 
       <div className="mt-10 bg-white rounded-xl shadow p-6">
 
         <h2 className="text-xl font-semibold mb-4">
-          Recent Orders
+          Latest Products
         </h2>
 
-        <table className="w-full">
+        <p className="text-gray-500">
+          Coming Soon...
+        </p>
 
-          <thead>
+      </div>
 
-            <tr className="border-b">
+      {/* Latest Orders */}
 
-              <th className="text-left py-3">Order ID</th>
+      <div className="mt-8 bg-white rounded-xl shadow p-6">
 
-              <th className="text-left">Customer</th>
+        <h2 className="text-xl font-semibold mb-4">
+          Latest Orders
+        </h2>
 
-              <th className="text-left">Amount</th>
-
-              <th className="text-left">Status</th>
-
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            <tr className="border-b">
-
-              <td className="py-3">#1001</td>
-
-              <td>Rahul</td>
-
-              <td>₹12,500</td>
-
-              <td>
-                <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
-                  Delivered
-                </span>
-              </td>
-
-            </tr>
-
-            <tr className="border-b">
-
-              <td className="py-3">#1002</td>
-
-              <td>Gaurav</td>
-
-              <td>₹6,999</td>
-
-              <td>
-                <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm">
-                  Pending
-                </span>
-              </td>
-
-            </tr>
-
-            <tr>
-
-              <td className="py-3">#1003</td>
-
-              <td>Aman</td>
-
-              <td>₹2,499</td>
-
-              <td>
-                <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
-                  Shipped
-                </span>
-              </td>
-
-            </tr>
-
-          </tbody>
-
-        </table>
+        <p className="text-gray-500">
+          Coming Soon...
+        </p>
 
       </div>
 
     </div>
+
   );
+
 };
 
 export default Dashboard;
