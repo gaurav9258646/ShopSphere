@@ -13,6 +13,8 @@ const {
     getProfile,
     updateProfile,
     getAllUsers,
+    getUserById,
+    updateUser,
     deleteUser,
     updateUserStatus,
 } = require("../controllers/user.controller");
@@ -55,5 +57,17 @@ router.put(
     isAdmin,
     updateUserStatus
 );
+router.get(
+    "/:id",
+    authMiddleware,
+    isAdmin,
+    getUserById
+);
 
+router.put(
+    "/:id",
+    authMiddleware,
+    isAdmin,
+    updateUser
+);
 module.exports = router;

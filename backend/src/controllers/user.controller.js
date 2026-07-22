@@ -2,6 +2,8 @@ const {
     getProfileService,
     updateProfileService,
     getAllUsersService,
+    getUserByIdService,
+    updateUserService,
     deleteUserService,
     updateUserStatusService,
 } = require("../services/user.service");
@@ -125,10 +127,64 @@ const updateUserStatus = async (req, res) => {
 
 };
 
-module.exports = {
+
+const getUserById = async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const user = await getUserByIdService(id);
+
+        return res.status(200).json({
+            success: true,
+            data: user,
+        });
+
+    } catch (error) {
+
+        return res.status(404).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
+};
+
+
+const updateUser = async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const user = await updateUserService(
+            id,
+            req.body
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "User updated successfully",
+            data: user,
+        });
+
+    } catch (error) {
+
+        return res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
+}; module.exports = {
     getProfile,
     updateProfile,
     getAllUsers,
+    getUserById,
+    updateUser,
     deleteUser,
     updateUserStatus,
 };

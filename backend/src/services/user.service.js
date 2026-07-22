@@ -1,55 +1,86 @@
 const User = require("../models/user.model");
 
 
-const getProfileService = async (userId) => {
-    const user = await User.findUserById(userId);
+const getProfileService = async (id) => {
+
+    const user = await User.findUserById(id);
 
     if (!user) {
         throw new Error("User not found");
     }
 
     return user;
+
 };
 
 
-const updateProfileService = async (userId, userData) => {
 
-    const user = await User.findUserById(userId);
+const updateProfileService = async (id, data) => {
+
+    const user = await User.findUserById(id);
 
     if (!user) {
         throw new Error("User not found");
     }
 
-    await User.updateUser(userId, {
-        name: userData.name,
-        email: userData.email,
-    });
+    await User.updateUser(id, data);
 
-    const updatedUser = await User.findUserById(userId);
+    return await User.findUserById(id);
 
-    return updatedUser;
 };
+
 
 
 const getAllUsersService = async () => {
 
-    const users = await User.getAllUsers();
+    return await User.getAllUsers();
 
-    return users;
 };
 
-const deleteUserService = async (userId) =>{
+const getUserByIdService = async (id) => {
 
-    const user = await User.findUserById(userId);
+    const user = await User.findUserById(id);
 
     if (!user) {
         throw new Error("User not found");
     }
 
-    await User.deleteUser(userId);
+    return user;
+
+};
+
+
+const updateUserService = async (id, data) => {
+
+    const user = await User.findUserById(id);
+
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    await User.updateUser(id, data);
+
+    return await User.findUserById(id);
+
+};
+
+
+
+const deleteUserService = async (id) => {
+
+    const user = await User.findUserById(id);
+
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    await User.deleteUser(id);
 
     return true;
+
 };
+
+
 const updateUserStatusService = async (
     id,
     status
@@ -61,10 +92,7 @@ const updateUserStatusService = async (
         throw new Error("User not found");
     }
 
-    await User.updateUserStatus(
-        id,
-        status
-    );
+    await User.updateUserStatus(id, status);
 
     return await User.findUserById(id);
 
@@ -74,6 +102,8 @@ module.exports = {
     getProfileService,
     updateProfileService,
     getAllUsersService,
+    getUserByIdService,
+    updateUserService,
     deleteUserService,
     updateUserStatusService,
 };
