@@ -50,10 +50,30 @@ const deleteUserService = async (userId) =>{
 
     return true;
 };
+const updateUserStatusService = async (
+    id,
+    status
+) => {
+
+    const user = await User.findUserById(id);
+
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    await User.updateUserStatus(
+        id,
+        status
+    );
+
+    return await User.findUserById(id);
+
+};
 
 module.exports = {
     getProfileService,
     updateProfileService,
     getAllUsersService,
     deleteUserService,
+    updateUserStatusService,
 };

@@ -3,6 +3,7 @@ const {
     updateProfileService,
     getAllUsersService,
     deleteUserService,
+    updateUserStatusService,
 } = require("../services/user.service");
 
 
@@ -85,10 +86,49 @@ const deleteUser = async (req, res) => {
         });
     }
 };
+const updateUserStatus = async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const { status } = req.body;
+
+        if (!status) {
+
+            return res.status(400).json({
+                success: false,
+                message: "Status is required",
+            });
+
+        }
+
+        const user = await updateUserStatusService(
+            id,
+            status
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "User status updated successfully",
+            data: user,
+        });
+
+    } catch (error) {
+
+        return res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+
+};
 
 module.exports = {
     getProfile,
     updateProfile,
     getAllUsers,
     deleteUser,
+    updateUserStatus,
 };

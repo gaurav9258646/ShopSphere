@@ -118,6 +118,27 @@ const deleteUser = async (id) => {
     }
 };
 
+
+const updateUserStatus = async (
+    id,
+    status
+) => {
+
+    const sql = `
+        UPDATE users
+        SET status = ?
+        WHERE id = ?
+    `;
+
+    const [result] = await db.execute(sql, [
+        status,
+        id,
+    ]);
+
+    return result;
+
+};
+
 module.exports = {
     createUser,
     findUserByEmail,
@@ -125,4 +146,5 @@ module.exports = {
     updateUser,
     getAllUsers,
     deleteUser,
+    updateUserStatus,
 };

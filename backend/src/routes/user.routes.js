@@ -14,6 +14,7 @@ const {
     updateProfile,
     getAllUsers,
     deleteUser,
+    updateUserStatus,
 } = require("../controllers/user.controller");
 
 
@@ -47,6 +48,12 @@ router.delete(
     authMiddleware,
     isAdmin,
     deleteUser
+);
+router.put(
+    "/:id/status",
+    authMiddleware,
+    isAdmin,
+    updateUserStatus
 );
 
 module.exports = router;
